@@ -4,7 +4,7 @@ This is a temporary version of the code. It is functional yet, it is not documen
 
 
 # Cosserat-Rod-Modeling-of-Continuum-Concentric-PushPull-Robots
-This code is associated to the paper Tummers et al., “Continuum concentric push-pull robots: a Cosserat rod model,” IEEE International Journal of Robotics Research to model continuum concentric push-pull robots based on Cosserat rod theory.
+This code is associated to the paper Tummers et al., “Continuum concentric push-pull robots: a Cosserat rod model,” International Journal of Robotics Research to model continuum concentric push-pull robots based on Cosserat rod theory.
 
 ![hellicoid_CCPPR](https://github.com/TIMClab-CAMI/Cosserat-Rod-Modeling-of-Continuum-Concentric-PushPull-Robots/assets/127660512/0b3ab5fd-3cdb-4ff6-acef-71ca4b6bad5c)
 
