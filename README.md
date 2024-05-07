@@ -8,7 +8,11 @@ This code is associated to the paper Tummers et al., “Continuum concentric pus
 
 ![hellicoid_CCPPR](https://github.com/TIMClab-CAMI/Cosserat-Rod-Modeling-of-Continuum-Concentric-PushPull-Robots/assets/127660512/0b3ab5fd-3cdb-4ff6-acef-71ca4b6bad5c)
 
-
+## Structure of the code
+* The entry-point of the code repository is the "main.m" script that reproduces the results from the associated paper (see above).
+* The "tools" folder contains various general order tools regarding Lie algebra, Chebyshev grids, Legendre polynomials, spectral integration, quaternion operations, saving, reading, plotting results, etc.
+* The "tools" folder contains various general order tools regarding Lie algebra, Chebyshev grids, Legendre polynomials, spectral integration, quaternion operations, saving, reading, plotting results, etc.
+ 
 ## Prerequisites
 * MATLAB
 
