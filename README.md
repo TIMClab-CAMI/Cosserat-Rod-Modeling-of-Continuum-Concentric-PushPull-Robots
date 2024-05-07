@@ -11,7 +11,7 @@ Various approaches and structures emerged recently to design continuum robots. O
 ![hellicoid_CCPPR](https://github.com/TIMClab-CAMI/Cosserat-Rod-Modeling-of-Continuum-Concentric-PushPull-Robots/assets/127660512/0b3ab5fd-3cdb-4ff6-acef-71ca4b6bad5c)
 
 ## Structure of the code
-* The entry-point of the code repository is the "main.m" script that reproduces the results from the associated paper (see above).
+* The entry point for the generic code repository is the ‘main.m’ script, which reproduces the results of the associated article (see above).
 * The "tools" folder contains various general order tools regarding Lie algebra, Chebyshev grids, Legendre polynomials, spectral integration, quaternion operations, saving, reading, plotting results, etc.
  
 ## Prerequisites
