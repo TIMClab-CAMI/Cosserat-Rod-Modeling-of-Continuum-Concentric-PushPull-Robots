@@ -11,7 +11,6 @@ This code is associated to the paper Tummers et al., “Continuum concentric pus
 ## Structure of the code
 * The entry-point of the code repository is the "main.m" script that reproduces the results from the associated paper (see above).
 * The "tools" folder contains various general order tools regarding Lie algebra, Chebyshev grids, Legendre polynomials, spectral integration, quaternion operations, saving, reading, plotting results, etc.
-* The "tools" folder contains various general order tools regarding Lie algebra, Chebyshev grids, Legendre polynomials, spectral integration, quaternion operations, saving, reading, plotting results, etc.
  
 ## Prerequisites
 * MATLAB
