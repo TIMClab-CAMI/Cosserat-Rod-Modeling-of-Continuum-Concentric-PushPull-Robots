@@ -8,7 +8,7 @@ This code is associated to the paper Tummers et al., “Continuum concentric pus
 
 Various approaches and structures emerged recently to design continuum robots. One of the most promising designs regards a new concept of continuum concentric push-pull robots (CPPRs) that have the characteristic of combining several key advantages  of  tendon  actuated,  multi-backbone,  and  concentric  tube  ones  (direct  curvature  actuation,  small  outer/innerdiameter ratio, free lumen, etc.). Geometrically-exact models of such recently introduced robots are yet to be developed togain leverage of their full potential. This article extends beyond usual definitions of Cosserat rod theory in order to take intoaccount this new type of continuum robots, constituted by sliding rods, in a shape of tubes whose cross-sections are neitheruniform nor symmetrical along their entire length. The introduced model is capable of considering versatile design options, external loads, 3D deformations, an arbitrary number of tubes and profiles of the centroid lines, as well as a new actuationmethod consisting of an input rotation. Numerical simulations and experiments on CPPR prototypes validate our model.
 
-![hellicoid_CCPPR](https://github.com/TIMClab-CAMI/Cosserat-Rod-Modeling-of-Continuum-Concentric-PushPull-Robots/assets/127660512/0b3ab5fd-3cdb-4ff6-acef-71ca4b6bad5c)
+![hellicoid_CCPPR](https://github.com/TIMClab-CAMI/Cosserat-Rod-Modeling-of-Continuum-Concentric-PushPull-Robots/assets/127660512/525ff9aa-7f37-4c7b-b9c4-cf2b5b64eba6)
 
 ## Structure of the code
 * The entry point for the generic code repository is the ‘main.m’ script, which reproduces the results of the associated article (see above).
