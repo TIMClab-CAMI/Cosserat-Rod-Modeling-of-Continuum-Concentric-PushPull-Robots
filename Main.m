@@ -8,7 +8,7 @@ addpath('./tool')
 addpath('./spectral_method')
 
 % numbers of nodes for spectral method
-Config.N_noeuds = 40; 
+Config.N_nodes = 40; 
 Config.time  = 0;
 
 % number of tube
@@ -79,7 +79,7 @@ Const.dim_base = Const.dim_base_q_e + Const.dim_base_q_theta;
 Const.Gamma_g = 9.81;
 
 % Physical parameters of the beam 
-parametre_constant;
+parameters;
 
 %% ------------------------------------------------------- %
 %
@@ -96,16 +96,16 @@ Const.r_0 = r_0;
 Const.q_0 = q_0; 
 
 % Force values F- -> Fp (-->m)
-Const.Fm_materielle = zeros(6,1); % Material
-Const.Fm_spaciale = zeros(6,1); % Spacial
+Const.Fm_material = zeros(6,1); % Material
+Const.Fm_spacial = zeros(6,1); % Spacial
 
 % Force values F+ -> Fp (+->p)
-Const.Fp_materielle = zeros(6,1); % Material
-Const.Fp_spaciale = 0*[0;0;0;-2*0.1327;0.3693;0];% Spacial
+Const.Fp_material = zeros(6,1); % Material
+Const.Fp_spacial = 0*[0;0;0;-2*0.1327;0.3693;0];% Spacial
 
 % Force values Fbar
-Const.Fbar_materielle = zeros(6,1); % Material
-Const.Fbar_spaciale = 0*[0;0;0;0;-Const.Gamma_g*Const.Aire*Const.rho;0]; % Spacial
+Const.Fbar_material = zeros(6,1); % Material
+Const.Fbar_spacial = 0*[0;0;0;0;-Const.Gamma_g*Const.Aire*Const.rho;0]; % Spacial
 
 % Initialisation of T and C
 for it_tubes = 2 : Config.nb_tubes  

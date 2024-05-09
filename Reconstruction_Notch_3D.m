@@ -3,8 +3,8 @@ time =0;
 
 D = Config.D;
 D_prime = Config.D_prime;
-N_noeuds =200; 
-X_grille_T = [];
+N_nodes =200; 
+X_grid_T = [];
 Xi_T = [];
 time = 0;
 
@@ -20,28 +20,28 @@ Const.q_e = q_e;
 Const.q_t = q_t;
 Const.it_troncon = 1;
 
-[DX,X_grille]=cheb(N_noeuds-1,Config.Li(1));  % sur une grille [0,L]
-X_k{1} = X_grille;
+[DX,X_grid]=cheb(N_nodes-1,Config.Li(1));  % sur une grille [0,L]
+X_k{1} = X_grid;
 
 % Calculation of X_k in X1
 
 for it_tubes = 2 : Config.nb_tubes 
     Config.it_tubes = it_tubes;
-    [T X_k{it_tubes}] = ode45(@(X_1,X_k) face_2_face(X_1,X_k,Const,Config),flip(X_grille),0); % Solve ODE
+    [T X_k{it_tubes}] = ode45(@(X_1,X_k) face_2_face(X_1,X_k,Const,Config),flip(X_grid),0); % Solve ODE
     X_k{it_tubes} = flip(X_k{it_tubes});
 end
 
 % Calculation of Xi_1 in X_1 of beam 1 
-for it_x = 1:N_noeuds
-    Phi_e(:,:,it_x) = Base_Phi(X_grille(it_x),time,Const,Config);
+for it_x = 1:N_nodes
+    Phi_e(:,:,it_x) = Base_Phi(X_grid(it_x),time,Const,Config);
     
     Xi_K = Phi_e(:,:,it_x)'*Const.q(1:Const.dim_base_q_e);
-    Xi_a = [Xi_K;0;0;Config.D{1}(X_grille(it_x))*Xi_K(1)];
-    Xi_0(:,it_x) = [Config.K_0{1}(X_grille(it_x));0;0;1;Config.D_prime{1}(X_grille(it_x));Config.D{1}(X_grille(it_x))*Config.K_0{1}(X_grille(it_x))];
+    Xi_a = [Xi_K;0;0;Config.D{1}(X_grid(it_x))*Xi_K(1)];
+    Xi_0(:,it_x) = [Config.K_0{1}(X_grid(it_x));0;0;1;Config.D_prime{1}(X_grid(it_x));Config.D{1}(X_grid(it_x))*Config.K_0{1}(X_grid(it_x))];
     Xi(:,it_x) = Xi_a +  Xi_0(:,it_x);
     for it_tube = 2:Config.nb_tubes
         [Phi_theta(:,:,it_x),Phi_theta_prime(:,:,it_x)] = Base_Phi_prime(X_k{it_tubes}(it_x),time,Const,Config);
-        [Phi_theta(:,:,it_x),Phi_theta_prime(:,:,it_x)] = Base_Phi_prime(Config.L-X_grille(it_x),time,Const,Config);
+        [Phi_theta(:,:,it_x),Phi_theta_prime(:,:,it_x)] = Base_Phi_prime(Config.L-X_grid(it_x),time,Const,Config);
         Delta_theta{it_tube}(:,it_x) = Phi_theta(:,:,it_x)'*q_t(1+(it_tube-2)*nb_modes_theta:(it_tube-1)*nb_modes_theta);
         Delta_theta_prime{it_tube}(:,it_x) = Phi_theta_prime(:,:,it_x)'*q_t(1+(it_tube-2)*nb_modes_theta:(it_tube-1)*nb_modes_theta);
         h_k{it_tube}(it_x) =  face_2_face(X_k{1}(it_x),X_k{it_tubes}(it_x),Const,Config);
@@ -60,12 +60,12 @@ Delta_theta_prime{1} = 0*Delta_theta_prime{2};
 % Quaternion of beam 1
 
 CI = q_0;
-CL_ind=[1,N_noeuds+1,2*N_noeuds+1,3*N_noeuds+1];
+CL_ind=[1,N_nodes+1,2*N_nodes+1,3*N_nodes+1];
 
 f_A = @(it) quaternion_dot2(Xi(:,it));
 f_B = @(it) zeros(max(size(CI)),1);
 
-QX_k{1} = integral_spectral(f_A,f_B,CI,DX,N_noeuds,CL_ind);
+QX_k{1} = integral_spectral(f_A,f_B,CI,DX,N_nodes,CL_ind);
 
 q_0 = QX_k{1}(:,end);
 q_0_1 = q_0;
@@ -73,12 +73,12 @@ q_0_1 = q_0;
 % Position of beam 1
 
 CI = r_0;
-CL_ind=[1,N_noeuds+1,2*N_noeuds+1,3*N_noeuds+1];
+CL_ind=[1,N_nodes+1,2*N_nodes+1,3*N_nodes+1];
 
 f_A = @(it) zeros(max(size(CI)),max(size(CI)));
 f_B = @(it) r_dot(QX_k{1}(:,it),Xi(4:6,it));
 
-rX{1} = integral_spectral(f_A,f_B,CI,DX,N_noeuds,CL_ind);
+rX{1} = integral_spectral(f_A,f_B,CI,DX,N_nodes,CL_ind);
 
 r_0 = rX{1}(:,end);
 
@@ -98,11 +98,11 @@ end
 for it_tubes = 2 : Config.nb_tubes 
     % Calculation of Xi_k in X1
     
-    for it_x = 1:N_noeuds
+    for it_x = 1:N_nodes
         theta_k = Config.theta_0{it_tubes}(X_k{it_tubes}(it_x))+Delta_theta{it_tube}(:,it_x);
         Rx = [1 0 0;0 cos(theta_k) -sin(theta_k);0 sin(theta_k) cos(theta_k)];
         Rz = [-1, 0, 0;0, -1, 0;0, 0, 1];
-        r1_k = Rz*[((Config.D{1}(X_grille(it_x))*eye(3)+Config.D{it_tubes}(X_k{it_tubes}(it_x))*Rx)*[0;1;0])];
+        r1_k = Rz*[((Config.D{1}(X_grid(it_x))*eye(3)+Config.D{it_tubes}(X_k{it_tubes}(it_x))*Rx)*[0;1;0])];
         g1_k = [Rz*Rx,r1_k; 0 0 0 1];
         gk_1 = inv(g1_k);
         Rk_1 = gk_1(1:3,1:3);
@@ -111,7 +111,7 @@ for it_tubes = 2 : Config.nb_tubes
         mu_k = -[1 0 0 0 0 Config.D{it_tubes}(X_k{it_tubes}(it_x))]';
         theta_prime_0_k = Config.theta_0_prime{it_tubes}(X_k{it_tubes}(it_x));
         
-        nu_k = [theta_prime_0_k,0,0,0,cos(theta_k)*Config.D_prime{1}(X_grille(it_x))-Config.D_prime{it_tubes}(X_k{it_tubes}(it_x)),sin(theta_k)*Config.D_prime{1}(X_grille(it_x))+Config.D{it_tubes}(X_k{it_tubes}(it_x))*theta_prime_0_k]';
+        nu_k = [theta_prime_0_k,0,0,0,cos(theta_k)*Config.D_prime{1}(X_grid(it_x))-Config.D_prime{it_tubes}(X_k{it_tubes}(it_x)),sin(theta_k)*Config.D_prime{1}(X_grid(it_x))+Config.D{it_tubes}(X_k{it_tubes}(it_x))*theta_prime_0_k]';
         
         Xi_k_1 = mu_k * Delta_theta_prime{it_tube}(:,it_x) + nu_k;
         
@@ -122,28 +122,28 @@ for it_tubes = 2 : Config.nb_tubes
     theta = Config.theta_0{it_tubes}(X_k(end))+Delta_theta{it_tube}(:,end);
     Rx = [1 0 0;0 cos(theta_k) -sin(theta_k);0 sin(theta_k) cos(theta_k)];
     Rz = [-1, 0, 0;0, -1, 0;0, 0, 1];
-    r1_k = Rz*[((Config.D{1}(X_grille(end))*eye(3)+Config.D{it_tubes}(X_k{it_tubes}(end))*Rx)*[0;1;0])];
+    r1_k = Rz*[((Config.D{1}(X_grid(end))*eye(3)+Config.D{it_tubes}(X_k{it_tubes}(end))*Rx)*[0;1;0])];
     g1_k = [Rz*Rx,r1_k; 0 0 0 1];
     g_0_1 = [quat2rot(q_0_1),r_0;0 0 0 1];
     g_0_k = g_0_1*g1_k;
     
     CI = rot2quat(g_0_k(1:3,1:3));
-    CL_ind=[N_noeuds,2*N_noeuds,3*N_noeuds,4*N_noeuds];
+    CL_ind=[N_nodes,2*N_nodes,3*N_nodes,4*N_nodes];
 
     f_A = @(it) quaternion_dot2(h_k{it_tube}(it)*Xi_k{it_tubes}(:,it));
     f_B = @(it) zeros(max(size(CI)),1);
 
-    QX_k{it_tubes} = integral_spectral(f_A,f_B,CI,DX,N_noeuds,CL_ind);
+    QX_k{it_tubes} = integral_spectral(f_A,f_B,CI,DX,N_nodes,CL_ind);
 
     % Position of beam k
        
     CI = g_0_k(1:3,4);
-    CL_ind=[N_noeuds,2*N_noeuds,3*N_noeuds];
+    CL_ind=[N_nodes,2*N_nodes,3*N_nodes];
 
     f_A = @(it) zeros(max(size(CI)),max(size(CI)));
     f_B = @(it) r_dot(QX_k{it_tubes}(:,it),h_k{it_tube}(it)*Xi_k{it_tubes}(4:6,it));
     
-    rX{it_tubes} = integral_spectral(f_A,f_B,CI,DX,N_noeuds,CL_ind);
+    rX{it_tubes} = integral_spectral(f_A,f_B,CI,DX,N_nodes,CL_ind);
 
     am(it_tubes)=Config.L-X_k{it_tubes}(1); % a
     thetam(it_tubes) = Delta_theta{it_tube}(:,1);
@@ -170,7 +170,7 @@ drawnow
 
 L =Config.L;
 
-X = X_grille;
+X = X_grid;
 pas_dent = 0.005;
 for it=1:max(size(X))
     theta = [-pi:pi/20:pi];
@@ -215,9 +215,9 @@ for it=1:max(size(X))
     end
 end
 figure(200)
-surf(-Y_1,-Z_1,X_1,'EdgeColor','none','FaceAlpha',0.5,'Facecolor','b')
+surf(-Y_1,-Z_1,X_1,'EdgeColor','none','FaceAlpha',0.5,'Facecolor',[0.41,0.81,0.70])
 hold on
-surf(-Y_2,-Z_2,X_2,'EdgeColor','none','FaceAlpha',1,'Facecolor','r')
+surf(-Y_2,-Z_2,X_2,'EdgeColor','none','FaceAlpha',1,'Facecolor',[0.96,0.40,0.33])
 grid on 
 
 surf(0.06*ones(size(Y_1)),-Z_1,X_1,'EdgeColor','none','FaceAlpha',1,'Facecolor',0.8*[1,1,1])

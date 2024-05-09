@@ -1,13 +1,13 @@
 function [Xi_k] = function_Xi_0(time,Const,Config)
 
-N_noeuds = Config.N_noeuds; 
+N_nodes = Config.N_nodes; 
 Const.it_troncon = 1;
 
-[DX,X_grille]=cheb(N_noeuds-1,Config.Li(1));  
+[DX,X_grille]=cheb(N_nodes-1,Config.Li(1));  
 X_k{1} = X_grille;
 
 %Calculation of Xin X_1 of beam 1 
-for it_x = 1:N_noeuds
+for it_x = 1:N_nodes
     Xi(:,it_x) = [Config.K_0{1}(X_grille(it_x));0;0;1;Config.D_prime{1}(X_grille(it_x));Config.D{1}(X_grille(it_x))*Config.K_0{1}(X_grille(it_x))];
 end
 Xi_k{1} = Xi;
@@ -19,7 +19,7 @@ for it_tubes = 2 : Config.nb_tubes
     
     % Calculation of Xi_k
     
-    for it_x = 1:N_noeuds
+    for it_x = 1:N_nodes
         theta = Config.theta_0{it_tubes}(X_k{it_tubes}(it_x));
         Rx = [1 0 0;0 cos(theta) -sin(theta);0 sin(theta) cos(theta)];
         Rz = [-1, 0, 0;0, -1, 0;0, 0, 1];
