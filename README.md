@@ -1,5 +1,5 @@
 
-## Warning !
+## Warning!
 This is a temporary version of the code. It is functional yet, it is not documented nor is it well formatted. A code revision will come shortly (within the next few months).
 
 
